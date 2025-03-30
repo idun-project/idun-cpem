@@ -1,6 +1,6 @@
 # Posix Makefile for RunCPM
 
-PROG = RunCPM
+PROG = ../test/cpem
 
 MFILE = Makefile.posix
 

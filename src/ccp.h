@@ -3,6 +3,8 @@
 
 // CP/M BDOS calls
 #include "cpm.h"
+// Interface for LINUX cmd
+#include "linux_intf.h"
 
 #define CmdFCB	(BatchFCB + 48)			// FCB for use by internal commands
 #define ParFCB	0x005C					// FCB for use by line parameters
@@ -44,6 +46,7 @@ static const char *Commands[] =
     "DEL",
     "EXIT",
     "PAGE",
+    "LINUX",
 #endif
     "VOL",
     "?",
@@ -373,6 +376,18 @@ uint8 _ccp_page(void) {
     }
     return (error);
 } // _ccp_page
+
+// LINUX command
+uint8 _ccp_linux(void) {
+    uint8 error = TRUE;
+    uint8 plen;
+
+    _puts("\r\n");
+    if ((plen = _RamRead(defDMA))==0) return (error);
+
+    error = nix_exec((const char *)&_RamRead(defDMA+1), plen);
+    return (error);
+}
 #endif
 
 // VOL command
@@ -413,6 +428,7 @@ uint8 _ccp_vol(void) {
 uint8 _ccp_hlp(void) {
     _puts("\r\nCCP Commands:\r\n");
     _puts("\t? - Shows this list of commands\r\n");
+    _puts("\tLINUX - Execute a linux command\r\n");
     _puts("\tCLS - Clears the screen\r\n");
     _puts("\tDEL - Alias to ERA\r\n");
     _puts("\tEXIT - Terminates RunCPM\r\n");
@@ -837,14 +853,20 @@ void _ccp(void) {
                     i = _ccp_page();
                     break;
                 }
+
+                case 10: {           // LINUX
+                    i = _ccp_linux();
+                    break;
+                }
+
 #endif
                     
-                case 10: {          // VOL
+                case 11: {          // VOL
                     i = _ccp_vol();
                     break;
                 }
 
-                case 11: {          // HELP
+                case 12: {          // HELP
                     i = _ccp_hlp();
                     break;
                 }
