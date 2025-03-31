@@ -779,6 +779,8 @@ void _ccp(void) {
             
             for (i = 0; i < blen; ++i)
                 _RamWrite(defDMA + i + 1, toupper(_RamRead(pbuf + i)));
+            strncpy(orig_command_line, (const char *)_RamSysAddr(pbuf), blen);
+            orig_command_line[i] = '\0';
             while (i++ < 127)                           // "Zero" the rest of the DMA buffer
                 _RamWrite(defDMA + i, 0);
             _ccp_initFCB(ParFCB, 18);                   // Initializes the parameter FCB

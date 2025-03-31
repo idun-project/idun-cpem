@@ -7,20 +7,16 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-char **nix_args(const char *input, size_t len) {
+char orig_command_line[256];
+
+char **nix_args(size_t len) {
     // Allocate space for argument pointers
     size_t arg_count = 0;
     char **argv = malloc(10 * sizeof(char *));  // Initial size for 10 arguments
     char *arg;
-    char *input_copy = strndup(input, len);  // Make a mutable copy of the input string
-
-    // Convert it to lower case
-    for (int i = 0; input_copy[i]; i++) {
-        input_copy[i] = tolower((unsigned char)input_copy[i]);
-    }
 
     // Split the string by spaces
-    arg = strtok(input_copy, " ");
+    arg = strtok(orig_command_line, " ");
     while (arg != NULL) {
         argv[arg_count++] = strdup(arg);  // Store each argument
         if (arg_count % 10 == 0) {  // Resize if needed
@@ -29,8 +25,8 @@ char **nix_args(const char *input, size_t len) {
         arg = strtok(NULL, " ");
     }
     argv[arg_count] = NULL;  // Null-terminate the argument list
+    orig_command_line[0] = '\0';
 
-    free(input_copy);
     return argv;
 }
 
@@ -42,7 +38,7 @@ int nix_exec(const char *cmd, size_t length) {
     }
 
     if (pid == 0) {     // Child process
-        char **args = nix_args(cmd, length);
+        char **args = nix_args(length);
 
         // Replace the current process with the new one
         execvp(args[0], args);
@@ -53,7 +49,7 @@ int nix_exec(const char *cmd, size_t length) {
         for (int i = 0; args[i] != NULL; i++)
             free(args[i]);
         free(args);
-        return -1;
+        exit(-1);
     } else {            // Parent process
         // Wait for the child to complete
         wait(NULL);
