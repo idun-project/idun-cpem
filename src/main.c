@@ -1,4 +1,9 @@
 /*
+		CPem - Emulate CP/M on the idun-cartridge
+		Copyright (c) 2025 - Brian Holdsworth
+
+		CPem is based on RunCPM v6.7
+		
 		RunCPM - Execute 8bit CP/M applications on modern computers
 		Copyright (c) 2016 - Marcelo Dantas
 
@@ -66,8 +71,10 @@ int main(int argc, char* argv[]) {
 #endif
 	_console_init();
 	_clrscr();
-	_puts("  CP/M Emulator v" VERSION " by Marcelo Dantas\r\n");
-	_puts("      Built " __DATE__ " - " __TIME__ "\r\n");
+	_puts("    CPem for Idun v" VERSION " running on ");
+	// TODO: get machine name from cmdline
+	_puts("C128\r\n");
+	_puts("  based on RunCPM v6.7 by Marcelo Dantas\r\n");
 	_puts("----------------------------------------\r\n");
 	_puts("BIOS at 0x");
 	_puthex16(BIOSjmppage);

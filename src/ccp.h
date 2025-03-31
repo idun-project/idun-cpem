@@ -385,7 +385,7 @@ uint8 _ccp_linux(void) {
     _puts("\r\n");
     if ((plen = _RamRead(defDMA))==0) return (error);
 
-    error = nix_exec((const char *)&_RamRead(defDMA+1), plen);
+    error = nix_exec((const char *)_RamSysAddr(defDMA+1), plen);
     return (error);
 }
 #endif
@@ -431,7 +431,7 @@ uint8 _ccp_hlp(void) {
     _puts("\tLINUX - Execute a linux command\r\n");
     _puts("\tCLS - Clears the screen\r\n");
     _puts("\tDEL - Alias to ERA\r\n");
-    _puts("\tEXIT - Terminates RunCPM\r\n");
+    _puts("\tEXIT - Terminates CPem\r\n");
     _puts("\tPAGE [<n>] - Sets the page size for TYPE\r\n");
     _puts("\t    or disables paging if no parameter passed\r\n");
     _puts("\tVOL [drive] - Shows the volume information\r\n");
@@ -843,7 +843,7 @@ void _ccp(void) {
                 }
                     
                 case 8: {           // EXIT
-                    _puts(	"Terminating RunCPM.\r\n");
+                    _puts(	"Terminating CPem.\r\n");
                     _puts(	"CPU Halted.\r\n");
                     Status = 1;
                     break;

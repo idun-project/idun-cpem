@@ -1575,7 +1575,7 @@ void Z80debug(void) {
 			_puts("  L - Disassembles at address\r\n");
 			_puts("  T - Steps over a call\r\n");
 			_puts("  W - Sets a byte/word watch\r\n");
-			_puts("  X - Exit RunCPM\r\n");
+			_puts("  X - Exit CPem\r\n");
 			break;
 		default:
 			_puts(" ???\r\n");

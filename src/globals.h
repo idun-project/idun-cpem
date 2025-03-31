@@ -25,11 +25,11 @@
 //#define LOGBIOS_ONLY 02	// If defined will log only this BIOS function number
 //#define LOGBDOS_NOT 06	// If defined will not log this BDOS function number
 //#define LOGBDOS_ONLY 22	// If defined will log only this BDOS function number
-#define LogName "RunCPM.log"
+#define LogName "/var/log/idun/cpem"
 
-/* RunCPM version for the greeting header */
-#define VERSION	"6.7"
-#define VersionBCD 0x67
+/* CPem version for the greeting header */
+#define VERSION	"1.2"
+#define VersionBCD 0x12
 
 /* Definition of which BDOS to use (not for Internal CCP, set to 60K CCPs by default) */
 //#define ABDOS				// Based on work by Pavel Zampach (https://www.chstercius.cz/runcpm/)
@@ -109,7 +109,7 @@
 #else
 	#define ABD
 #endif
-#define CCPHEAD		"\r\nRunCPM Version " VERSION " (CP/M " STR(TPASIZE) "K)" DBG ABD "\r\n"
+#define CCPHEAD		"\r\nCPem Version " VERSION " (CP/M " STR(TPASIZE) "K)" DBG ABD "\r\n"
 
 #define NOSLASH						// Will translate '/' to '_' on filenames to prevent directory errors
 
@@ -169,7 +169,7 @@ typedef unsigned int    uint32;
 #define MaxRC 128					// Maximum value the RC field can take
 
 /* CP/M memory definitions */
-#define TPASIZE 60					// Can be 60 for CP/M 2.2 compatibility or more, up to 64 for extra memory
+#define TPASIZE 64					// Can be 60 for CP/M 2.2 compatibility or more, up to 64 for extra memory
 									// Values other than 60 or 64 would require rebuilding the CCP
 									// For TPASIZE<60 CCP ORG = (SIZEK * 1024) - 0x0C00
 

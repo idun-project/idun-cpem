@@ -1,30 +1,37 @@
-# Main Makefile for RunCPM
-#
-# Usage:
-#	To build:	make <platform> build
-#	To clean:	make <platform> clean	
+#Makefile for CPem
 
-PLATS = posix
+PROG = ../test/cpem
 
-all:	none
+# Compiler command
+CC = gcc
+#CC = gcc -DDEBUG=1 -DDEBUGLOG=1
 
-dos macosx mingw msys2 posix tdm:
-	$(eval SYS=$@)
-	@echo "Platform = $@ (type 'make all' for help)"
+# Flags to pass to the compiler - add "-g" to include debug information
+CFLAGS = -Wall -O3 -fPIC -Wno-unused-variable
+#CFLAGS = -Wall -O0 -fPIC -Wno-unused-variable -g
 
+# Flags to pass to the linker
+LDFLAGS =
+
+# Objects to build
+OBJS = main.o
+
+# Clean up program
+RM = rm -f
+
+#------------------------------------------------------------------------
+
+all: $(PROG)
+
+$(PROG): main.o
+	$(CC) $(OBJS) -o $(PROG) $(LDFLAGS)
+
+main.o: main.c $(wildcard *.h)
+	$(CC) $(CFLAGS) -c main.c
+
+rebuild: clean all
+
+.PHONY: clean
 clean:
-	$(MAKE) -f Makefile.$(SYS) clean
-
-build:
-	$(MAKE) -f Makefile.$(SYS) all
-
-rebuild:
-	$(MAKE) -f Makefile.$(SYS) rebuild
-
-none:
-	@echo "To build RunCPM issue 'make PLATFORM build'."
-	@echo "To clean RunCPM issue 'make PLATFORM clean'."
-	@echo "To clean,then build RunCPM issue 'make PLATFORM rebuild'."
-	@echo "Valid platforms are: $(PLATS)"
-
-.PHONY: all $(PLATS) clean build none
+	$(RM) *.o
+	$(RM) $(PROG)

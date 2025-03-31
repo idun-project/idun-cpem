@@ -487,7 +487,7 @@ static void _file_failure_exit(char *argv[], char* fmt, char* filename)
 
 static void _usage(char *argv[]) {
 	fprintf(stderr,
-		"RunCPM - an emulator to run CP/M programs on modern hosts\n"
+		"CPem - an emulator to run CP/M programs on modern hosts\n"
 		"usage: %s [-i input_file] [-o output_file] [-s]\n", argv[0]);
 	fprintf(stderr,
 		"  -i input_file: console input will be read from the file "
