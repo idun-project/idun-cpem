@@ -60,7 +60,10 @@ int lst_open = FALSE;
 #endif
 
 int main(int argc, char* argv[]) {
-
+	if (argc < 2) {
+		printf("Usage: %s host\n", argv[0]);
+		exit(0);
+	}
 #ifdef DEBUGLOG
 	_sys_deletefile((uint8*)LogName);
 #endif
@@ -71,10 +74,10 @@ int main(int argc, char* argv[]) {
 #endif
 	_console_init();
 	_clrscr();
-	_puts("    CPem for Idun v" VERSION " running on ");
-	// TODO: get machine name from cmdline
-	_puts("C128\r\n");
-	_puts("  based on RunCPM v6.7 by Marcelo Dantas\r\n");
+	_puts("\x1b[1m    CPem for Idun v" VERSION " running on ");
+	_puts(argv[1]);
+	_puts("\x1b[22m\r\n");
+	_puts("    based on RunCPM by Marcelo Dantas\r\n");
 	_puts("----------------------------------------\r\n");
 	_puts("BIOS at 0x");
 	_puthex16(BIOSjmppage);

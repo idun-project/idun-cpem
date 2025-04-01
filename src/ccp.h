@@ -380,12 +380,11 @@ uint8 _ccp_page(void) {
 // LINUX command
 uint8 _ccp_linux(void) {
     uint8 error = TRUE;
-    uint8 plen;
 
     _puts("\r\n");
-    if ((plen = _RamRead(defDMA))==0) return (error);
+    if (_RamRead(defDMA)==0) return (error);
 
-    error = nix_exec((const char *)_RamSysAddr(defDMA+1), plen);
+    error = nix_exec();
     return (error);
 }
 #endif

@@ -1,13 +1,13 @@
 #Makefile for CPem
 
-PROG = ../test/cpem
+PROG = ../build/cpem
 
 # Compiler command
 CC = gcc
 #CC = gcc -DDEBUG=1 -DDEBUGLOG=1
 
 # Flags to pass to the compiler - add "-g" to include debug information
-CFLAGS = -Wall -O3 -fPIC -Wno-unused-variable
+CFLAGS = -Wall -O3 -fPIC -Wno-unused-variable -Wno-stringop-truncation
 #CFLAGS = -Wall -O0 -fPIC -Wno-unused-variable -g
 
 # Flags to pass to the linker
@@ -30,6 +30,9 @@ main.o: main.c $(wildcard *.h)
 	$(CC) $(CFLAGS) -c main.c
 
 rebuild: clean all
+
+install: all
+	rsync -a ../build/ $(HOME)/idun-base/cpm/
 
 .PHONY: clean
 clean:

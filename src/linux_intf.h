@@ -9,7 +9,7 @@
 
 char orig_command_line[256];
 
-char **nix_args(size_t len) {
+char **nix_args() {
     // Allocate space for argument pointers
     size_t arg_count = 0;
     char **argv = malloc(10 * sizeof(char *));  // Initial size for 10 arguments
@@ -30,7 +30,7 @@ char **nix_args(size_t len) {
     return argv;
 }
 
-int nix_exec(const char *cmd, size_t length) {
+int nix_exec() {
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork() failed");
@@ -38,7 +38,15 @@ int nix_exec(const char *cmd, size_t length) {
     }
 
     if (pid == 0) {     // Child process
-        char **args = nix_args(length);
+        char **args = nix_args();
+
+        // CD to the directory CP/M was working in...
+        uint8 dFolder = cDrive + 'A';
+        uint8 uFolder = toupper(tohex(userCode));
+        uint8 path[4] = { dFolder, FOLDERCHAR, uFolder, 0 };
+        uint8 fullpath[128] = FILEBASE;
+        strcat((char*)fullpath, (char*)path);
+        chdir((const char *)fullpath);
 
         // Replace the current process with the new one
         execvp(args[0], args);
