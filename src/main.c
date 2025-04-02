@@ -73,6 +73,7 @@ int main(int argc, char* argv[]) {
 	_streamioInit();
 #endif
 	_console_init();
+	nix_setpage();
 	_clrscr();
 	_puts("\x1b[1m    CPem for Idun v" VERSION " running on ");
 	_puts(argv[1]);

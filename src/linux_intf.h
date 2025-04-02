@@ -4,10 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
+extern uint8 pgSize;
 char orig_command_line[256];
+
+void nix_setpage() {
+    struct winsize w;
+    
+    // Use ioctl to get window size
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1) {
+        perror("ioctl");
+    } else {
+        pgSize = w.ws_row-1;
+    }
+}
 
 char **nix_args() {
     // Allocate space for argument pointers
