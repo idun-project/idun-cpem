@@ -25,11 +25,11 @@
 //#define LOGBIOS_ONLY 02	// If defined will log only this BIOS function number
 //#define LOGBDOS_NOT 06	// If defined will not log this BDOS function number
 //#define LOGBDOS_ONLY 22	// If defined will log only this BDOS function number
-#define LogName "/var/log/idun/cpem"
+#define LogName "cpem.log"
 
 /* CPem version for the greeting header */
-#define VERSION	"1.2"
-#define VersionBCD 0x12
+#define VERSION	"2.2"
+#define VersionBCD 0x22
 
 /* Definition of which BDOS to use (not for Internal CCP, set to 60K CCPs by default) */
 //#define ABDOS				// Based on work by Pavel Zampach (https://www.chstercius.cz/runcpm/)

@@ -111,12 +111,7 @@ enum eBDOSFunc {
 	C_WRITEBLK = 111,
 	L_WRITEBLK = 112,
 	F_PARSE = 152,
-// RunCPM Stuff
-	F_PINMODE = 220,
-	F_DREAD = 221,
-	F_DWRITE = 222,
-	F_AREAD = 223,
-	F_AWRITE = 224,
+// CPem BDOS functions
 	F_SETMASK = 230,
 	F_BDOSCALL = 231,
 	F_UPTIME = 248,
@@ -1648,52 +1643,6 @@ void _Bdos(void) {
 			break;
 		}
 
-
-#if defined board_digital_io
-
-		/*
-		   C = 220 (DCh) : PinMode
-		 */
-		case F_PINMODE: {
-			pinMode(HIGH_REGISTER(DE), LOW_REGISTER(DE));
-			break;
-		}
-
-		/*
-		   C = 221 (DDh) : DigitalRead
-		 */
-		case F_DREAD: {
-			HL = digitalRead(HIGH_REGISTER(DE));
-			break;
-		}
-
-		/*
-		   C = 222 (DEh) : DigitalWrite
-		 */
-		case F_DWRITE: {
-			digitalWrite(HIGH_REGISTER(DE), LOW_REGISTER(DE));
-			break;
-		}
-
-		/*
-		   C = 223 (DFh) : AnalogRead
-		 */
-		case F_AREAD: {
-			HL = analogRead(HIGH_REGISTER(DE));
-			break;
-		}
-#endif // if defined board_digital_io
-#if defined board_analog_io
-
-		/*
-		   C = 224 (E0h) : AnalogWrite
-		 */
-		case F_AWRITE: {
-			analogWrite(HIGH_REGISTER(DE), LOW_REGISTER(DE));
-			break;
-		}
-#endif // if defined board_analog_io
-
 		/*
 		   C = 230 (E6h) : Set 8 bit masking
 		 */
@@ -1709,24 +1658,6 @@ void _Bdos(void) {
 			HL = hostbdos(DE);
 			break;
 		}
-
-			/*
-			   C = 232 (E8h) : ESP32 specific BDOS call
-			 */
-#if defined board_esp32
-		case 232: {
-			HL = esp32bdos(DE);
-			break;
-		}
-
-#endif // if defined board_esp32
-#if defined board_stm32
-		case 232: {
-			HL = stm32bdos(DE);
-			break;
-		}
-
-#endif // if defined board_stm32
 
 		/*
 		   C = 248 (F8h) : Milliseconds Uptime

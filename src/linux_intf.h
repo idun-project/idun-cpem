@@ -38,9 +38,14 @@ char **nix_args() {
         }
         arg = strtok(NULL, " ");
     }
+
+    // If there are no commands, then just run "bash"
+    if (!arg_count) {
+        argv[arg_count++] = strdup("bash");
+    }
+
     argv[arg_count] = NULL;  // Null-terminate the argument list
     orig_command_line[0] = '\0';
-
     return argv;
 }
 
@@ -63,6 +68,7 @@ int nix_exec() {
         chdir((const char *)fullpath);
 
         // Replace the current process with the new one
+        _console_reset();
         execvp(args[0], args);
 
         // If execvp fails
@@ -71,6 +77,7 @@ int nix_exec() {
         for (int i = 0; args[i] != NULL; i++)
             free(args[i]);
         free(args);
+        // Restore console settings
         exit(-1);
     } else {            // Parent process
         // Wait for the child to complete
@@ -78,4 +85,28 @@ int nix_exec() {
     }
     return 0;
 }
+
+void nix_machine(char* mtype) {
+    char buffer[128];
+    FILE *fp;
+
+    // Execute the command and open a pipe to read the output
+    fp = popen("uname -m", "r");
+    if (fp == NULL) {
+        perror("popen failed");
+        strcpy(mtype, "unknown");
+        return;
+    }
+
+    // Read the output and store it in the result string
+    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        // Remove the newline character from the output
+        buffer[strcspn(buffer, "\n")] = 0;
+        strncpy(mtype, buffer, 10);
+    }
+
+    // Close the pipe
+    pclose(fp);
+}
+
 #endif

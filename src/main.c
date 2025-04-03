@@ -60,9 +60,12 @@ int lst_open = FALSE;
 #endif
 
 int main(int argc, char* argv[]) {
+	char mymachine[10];
+
 	if (argc < 2) {
-		printf("Usage: %s host\n", argv[0]);
-		exit(0);
+		nix_machine(mymachine);
+	} else {
+		strncpy(mymachine, argv[1], 10);
 	}
 #ifdef DEBUGLOG
 	_sys_deletefile((uint8*)LogName);
@@ -75,8 +78,8 @@ int main(int argc, char* argv[]) {
 	_console_init();
 	nix_setpage();
 	_clrscr();
-	_puts("\x1b[1m    CPem for Idun v" VERSION " running on ");
-	_puts(argv[1]);
+	_puts("\x1b[1m    CPem v" VERSION " for Idun running on ");
+	_puts(mymachine);
 	_puts("\x1b[22m\r\n");
 	_puts("    based on RunCPM by Marcelo Dantas\r\n");
 	_puts("----------------------------------------\r\n");

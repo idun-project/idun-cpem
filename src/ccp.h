@@ -95,7 +95,7 @@ uint8 _ccp_cnum(void) {
     }
 #ifndef Internals
     if (result != 255)
-        result += 10;
+        result += 11;
 #endif
     return (result);
 } // _ccp_cnum
@@ -382,8 +382,6 @@ uint8 _ccp_linux(void) {
     uint8 error = TRUE;
 
     _puts("\r\n");
-    if (_RamRead(defDMA)==0) return (error);
-
     error = nix_exec();
     return (error);
 }
@@ -451,9 +449,19 @@ uint8 _ccp_ext(void) {
 
     if (!wasSUB) {
         if (wasBlank) {
-            _RamWrite(CmdFCB + 9, 'C');                     //first look for a .COM file
-            _RamWrite(CmdFCB + 10, 'O');
-            _RamWrite(CmdFCB + 11, 'M');
+            _RamWrite(CmdFCB + 9, 'Z');                     //first look for a .Z80 file
+            _RamWrite(CmdFCB + 10, '8');
+            _RamWrite(CmdFCB + 11, '0');
+            found = !_ccp_bdos(F_OPEN, CmdFCB);
+            if (found) {                                    //Found native program- load on hard CPU
+                _puts("\r\n");
+                error = _ccp_bdos(F_BDOSCALL, CmdFCB);
+                return (error);
+            } else {
+                _RamWrite(CmdFCB + 9, 'C');                 //next look for a .COM file
+                _RamWrite(CmdFCB + 10, 'O');
+                _RamWrite(CmdFCB + 11, 'M');
+            }
         }
 
         drive = _RamRead(CmdFCB);                           // Get the drive from the command FCB
