@@ -650,7 +650,7 @@ void _ccp_readInput(void) {
         for (i = 0; i <= chars; ++i)
             _RamWrite(inBuf + i + 1, _RamRead(defDMA + i));
         _RamWrite(inBuf + i + 1, 0);
-        _puts((char *)_RamSysAddr(inBuf + 2));
+
         if (!sRecs) {
             _ccp_bdos(F_DELETE, BatchFCB);      // Deletes the submit file
             sFlag = FALSE;                      // and clears the submit flag
