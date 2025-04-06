@@ -60,8 +60,6 @@ int lst_open = FALSE;
 #endif
 
 int main(int argc, char* argv[]) {
-	char mymachine[10];
-
 	if (argc < 2) {
 		nix_machine(mymachine);
 	} else {

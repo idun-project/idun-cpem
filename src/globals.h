@@ -225,6 +225,7 @@ static uint8 ioBank = 1;			// Destination bank for sector IO
 #endif
 
 /* Definition of global variables */
+static char 	mymachine[10];		// Machine type hosting CPem
 static uint8	filename[17];		// Current filename in host filesystem format
 static uint8	newname[17];		// New filename in host filesystem format
 static uint8	fcbname[13];		// Current filename in CP/M format

@@ -4,6 +4,7 @@
 // CP/M BDOS calls
 #include "cpm.h"
 // Interface for LINUX cmd
+#include "globals.h"
 #include "linux_intf.h"
 
 #define CmdFCB	(BatchFCB + 48)			// FCB for use by internal commands
@@ -455,8 +456,13 @@ uint8 _ccp_ext(void) {
             found = !_ccp_bdos(F_OPEN, CmdFCB);
             if (found) {                                    //Found native program- load on hard CPU
                 _puts("\r\n");
-                error = _ccp_bdos(F_BDOSCALL, CmdFCB);
-                return (error);
+                if (strcmp(mymachine, "C128") == 0) {
+                    error = _ccp_bdos(F_BDOSCALL, CmdFCB);
+                    return (error);
+                } else {
+                    _puts("Z80 binaries only load on C128.");
+                    return (error);
+                }
             } else {
                 _RamWrite(CmdFCB + 9, 'C');                 //next look for a .COM file
                 _RamWrite(CmdFCB + 10, 'O');
