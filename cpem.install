@@ -1,0 +1,45 @@
+post_install() {
+	# Check if the "cpm" user already exists
+	if id "cpm" &>/dev/null; then
+	    echo "User 'cpm' already exists."
+	    exit 0
+	fi
+	# Check if the "idun" user exists
+	if ! id "idun" &>/dev/null; then
+	    echo "Error: User 'idun' does not exist."
+	    exit 1
+	fi
+	# Get UID of "idun"
+	IDUN_UID=$(id -u idun)
+	# Ensure the "idun" group exists
+	if ! getent group idun &>/dev/null; then
+	    echo "Error: Group 'idun' does not exist."
+	    exit 1
+	fi
+	# Define the home directory for "cpm"
+	CPM_HOME="/home/idun/idun-base/cpm"
+	# Create the "cpm" user
+	useradd \
+	    --uid "$IDUN_UID" \
+	    --shell /usr/local/bin/cpem \
+	    --home-dir "$CPM_HOME" \
+	    --gid idun \
+	    cpm
+	# Confirm user creation
+	if id "cpm" &>/dev/null; then
+	    echo "User 'cpm' created successfully with UID $IDUN_UID, shell /usr/local/bin/cpem, and home $CPM_HOME."
+	else
+	    echo "Error: Failed to create user 'cpm'."
+	    exit 1
+	fi
+
+	post_upgrade
+}
+
+post_upgrade() {
+	chown -R cpm:idun /home/idun/idun-base/cpm
+}
+
+post_remove() {
+	id -u "cpm" >/dev/null 2>&1 && sudo pkill -9 -u "cpm" && sudo userdel -r "cpm" || echo "User 'cpm' not found."
+}
