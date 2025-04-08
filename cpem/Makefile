@@ -3,12 +3,21 @@
 PROG = ../build/cpem
 
 # Compiler command
-CC = gcc
-#CC = gcc -DDEBUG=1 -DDEBUGLOG=1
-
-# Flags to pass to the compiler - add "-g" to include debug information
-CFLAGS = -Wall -O3 -fPIC -Wno-unused-variable -Wno-stringop-truncation
-#CFLAGS = -Wall -O0 -fPIC -Wno-unused-variable -g
+ifdef CROSS
+	CC = arm-linux-gnueabihf-gcc
+else
+	CC = gcc
+endif
+# Compiler flags
+ifdef DEBUG
+	CFLAGS = -DDEBUGLOG=1 -Wall -O0 -fPIC -Wno-unused-variable -Wno-stringop-truncation -g
+else
+	CFLAGS = -Wall -O3 -fPIC -Wno-unused-variable -Wno-stringop-truncation
+endif
+# Destination for make install
+ifndef DESTDIR
+	DESTDIR = $(HOME)
+endif
 
 # Flags to pass to the linker
 LDFLAGS =
@@ -32,7 +41,7 @@ main.o: main.c $(wildcard *.h)
 rebuild: clean all
 
 install: all
-	rsync -a ../build/ $(HOME)/idun-base/cpm/
+	rsync -a --delete ../build/ $(DESTDIR)/idun-base/cpm/
 
 .PHONY: clean
 clean:

@@ -20,26 +20,31 @@ post_install() {
 	CPM_HOME="/home/idun/idun-base/cpm"
 	# Create the "cpm" user
 	useradd \
-	    --uid "$IDUN_UID" \
-	    --shell /usr/local/bin/cpem \
-	    --home-dir "$CPM_HOME" \
-	    --gid idun \
+	    --shell "/usr/local/bin/cpem.sh" \
+	    -m \
+	    -g idun \
 	    cpm
+	# And set it's password to the default
+	echo "cpm:idun" | chpasswd
 	# Confirm user creation
 	if id "cpm" &>/dev/null; then
-	    echo "User 'cpm' created successfully with UID $IDUN_UID, shell /usr/local/bin/cpem, and home $CPM_HOME."
+	    echo "User 'cpm' created successfully."
 	else
 	    echo "Error: Failed to create user 'cpm'."
 	    exit 1
 	fi
 
+	grep -qxF '/usr/local/bin/cpem.sh' /etc/shells \
+		|| echo '/usr/local/bin/cpem.sh' \
+		| sudo tee -a /etc/shells
 	post_upgrade
 }
 
 post_upgrade() {
-	chown -R cpm:idun /home/idun/idun-base/cpm
+	chown -R idun:idun /home/idun/idun-base/cpm
+	chmod -R ug+rwX,o=r /home/idun/idun-base/cpm
 }
 
 post_remove() {
-	id -u "cpm" >/dev/null 2>&1 && sudo pkill -9 -u "cpm" && sudo userdel -r "cpm" || echo "User 'cpm' not found."
+	id -u "cpm" >/dev/null 2>&1 && pkill -9 -u "cpm" && userdel -fr "cpm" || echo "User 'cpm' not found."
 }

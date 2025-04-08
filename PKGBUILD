@@ -5,15 +5,18 @@ pkgdesc="CP/M integration for Idun"
 arch=("armv7h")
 url="https://github.com/idun-project/idun-cpem"
 depends=(idun idun-base)
-source=(cpem)
+source=()
 provides=(idun-cpem)
 install="cpem.install"
 
 build() {
-	make CROSS=1
+	cd "${startdir}/cpem"
+	make clean && make CROSS=1
 }
 
 package() {
-	install -D -m 755 ../build/cpem "${pkgdir}"/home/idun/idun-base/cpm/cpem
-	find ../build -type f -exec install -Dm 644 "{}" "${pkgdir}/home/idun/idun-base/cpm/{}" \;
+	cd "${startdir}/cpem"
+	install -D -m 755 cpem.sh "${pkgdir}"/usr/local/bin/cpem.sh
+	install -d "${pkgdir}"/home/idun/idun-base/cpm
+	make DESTDIR="${pkgdir}/home/idun" install
 }

@@ -1,2 +1,5 @@
 .vscode/
-src/*.o
+build/
+*.o
+*.tar.zst
+*.tar.zst.sig
