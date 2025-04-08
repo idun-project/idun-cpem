@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-You can install this software on your idun-cartridge using the following pacman command from the Linux prompt: `sudo pacman -Sy idun-cpem". You also need the "cpm.app" that is part of the cartridge project. This is included from v1.2.1 of idun-cartridge onward.
+You can install this software on your idun-cartridge using the following pacman command from the Linux prompt: `sudo pacman -Sy idun-cpem`. You also need the "cpm.app" that is part of the cartridge project. This is included from v1.2.1 of idun-cartridge onward.
 
 You can launch directly into CPem from the Commodore BASIC prompt using the command `go "cpm"`. You can also start CPem from the idun-shell by simply typing `cpm`.
 
