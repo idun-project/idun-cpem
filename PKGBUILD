@@ -1,5 +1,5 @@
 pkgname=idun-cpem
-pkgver=1.2_beta
+pkgver=1.2.1
 pkgrel=1
 pkgdesc="CP/M integration for Idun"
 arch=("armv7h")
