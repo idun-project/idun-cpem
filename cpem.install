@@ -42,6 +42,7 @@ post_install() {
 
 post_upgrade() {
 	chown -R idun:idun /home/idun/idun-base/cpm
+	chmod g+rwX /home/idun
 	chmod -R ug+rwX,o=r /home/idun/idun-base/cpm
 }
 
