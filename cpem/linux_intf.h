@@ -77,11 +77,11 @@ int nix_exec() {
         for (int i = 0; args[i] != NULL; i++)
             free(args[i]);
         free(args);
-        // Restore console settings
         exit(-1);
     } else {            // Parent process
         // Wait for the child to complete
         wait(NULL);
+        _console_reinit();
     }
     return 0;
 }

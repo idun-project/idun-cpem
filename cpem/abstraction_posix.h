@@ -591,6 +591,12 @@ void _console_init(void) {
 	setvbuf(stdout, (char*)NULL, _IONBF, 0); /* Disable stdout buffering */
 }
 
+void _console_reinit(void) {
+	tcsetattr(0, TCSANOW, &_new_term); /* Apply changes immediately */
+	setvbuf(stdin, (char*)NULL, _IONBF, 256); /* Enable stdin buffering */
+	setvbuf(stdout, (char*)NULL, _IONBF, 0); /* Disable stdout buffering */
+}
+
 void _console_reset(void) {
 	tcsetattr(0, TCSANOW, &_old_term);
 }
