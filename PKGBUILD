@@ -1,6 +1,6 @@
 pkgname=idun-cpem
 pkgver=1.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="CP/M integration for Idun"
 arch=("armv7h")
 url="https://github.com/idun-project/idun-cpem"
