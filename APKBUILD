@@ -9,7 +9,7 @@ depends="idun"
 source="$pkgname-$pkgver.tar.gz"
 builddir="$srcdir"
 options="!check"
-install="$pkgname.post-install $pkgname.post-remove"
+install="$pkgname.post-install $pkgname.post-deinstall"
 
 build() {
 	cd "$srcdir/cpem"
