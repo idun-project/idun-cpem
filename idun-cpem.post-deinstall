@@ -1,3 +1,3 @@
 #!/bin/sh
-
-id -u "cpm" >/dev/null 2>&1 && pkill -9 -u "cpm" && deluser "cpm" || echo "User 'cpm' not found."
+pkill -9 -u "cpm" 
+id -u "cpm" >/dev/null 2>&1 && deluser "cpm" || echo "User 'cpm' not found."
