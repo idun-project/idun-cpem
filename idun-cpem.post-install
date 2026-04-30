@@ -18,7 +18,7 @@ if ! getent group idun &>/dev/null; then
 fi
 # Create the "cpm" user
 adduser \
-    -s "/usr/local/bin/cpem" \
+    -s "/usr/bin/cpem" \
     -H \
     -G idun \
     cpm
