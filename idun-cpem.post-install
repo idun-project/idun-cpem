@@ -17,10 +17,10 @@ if ! getent group idun &>/dev/null; then
     exit 1
 fi
 # Create the "cpm" user
-useradd \
-    --shell "/usr/local/bin/cpem" \
-    -m \
-    -g idun \
+adduser \
+    -s "/usr/local/bin/cpem" \
+    -H \
+    -G idun \
     cpm
 # And set it's password to the default
 echo "cpm:idun" | chpasswd
