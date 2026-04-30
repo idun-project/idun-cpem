@@ -1,6 +1,6 @@
 #Makefile for CPem
 
-PROG = ../build/cpem
+PROG = cpem.bin
 
 # Compiler command
 ifdef CROSS
@@ -13,10 +13,6 @@ ifdef DEBUG
 	CFLAGS = -DDEBUGLOG=1 -Wall -O0 -fPIC -Wno-unused-variable -Wno-stringop-truncation -g
 else
 	CFLAGS = -Wall -O3 -fPIC -Wno-unused-variable -Wno-stringop-truncation
-endif
-# Destination for make install
-ifndef DESTDIR
-	DESTDIR = $(HOME)
 endif
 
 # Flags to pass to the linker
@@ -39,9 +35,6 @@ main.o: main.c $(wildcard *.h)
 	$(CC) $(CFLAGS) -c main.c
 
 rebuild: clean all
-
-install: all
-	rsync -a --delete ../build/ $(DESTDIR)/idun-base/cpm/
 
 .PHONY: clean
 clean:

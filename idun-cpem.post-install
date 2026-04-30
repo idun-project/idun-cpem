@@ -1,0 +1,37 @@
+#!/bin/sh
+# Check if the "cpm" user already exists
+if id "cpm" &>/dev/null; then
+    echo "User 'cpm' already exists."
+    exit 0
+fi
+# Check if the "idun" user exists
+if ! id "idun" &>/dev/null; then
+    echo "Error: User 'idun' does not exist."
+    exit 1
+fi
+# Get UID of "idun"
+IDUN_UID=$(id -u idun)
+# Ensure the "idun" group exists
+if ! getent group idun &>/dev/null; then
+    echo "Error: Group 'idun' does not exist."
+    exit 1
+fi
+# Create the "cpm" user
+useradd \
+    --shell "/usr/local/bin/cpem" \
+    -m \
+    -g idun \
+    cpm
+# And set it's password to the default
+echo "cpm:idun" | chpasswd
+# Confirm user creation
+if id "cpm" &>/dev/null; then
+    echo "User 'cpm' created successfully."
+else
+    echo "Error: Failed to create user 'cpm'."
+    exit 1
+fi
+
+grep -qxF '/usr/local/bin/cpem' /etc/shells \
+	|| echo '/usr/local/bin/cpem' \
+	| sudo tee -a /etc/shells
