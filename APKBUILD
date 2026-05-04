@@ -1,6 +1,6 @@
 pkgname=idun-cpem
 pkgver=1.2.1
-pkgrel=0
+pkgrel=1
 pkgdesc="CP/M integration for Idun"
 url="https://github.com/idun-project/idun-cpem"
 arch="aarch64"
@@ -21,5 +21,5 @@ package() {
 	install -D -m 755 "$builddir/cpem/cpem.sh" "${pkgdir}"/usr/bin/cpem
 }
 sha512sums="
-14c6f2d3bb40ff32210e23e059d2924752c5c023b999fb9a11929813a2471d9063f12591cabefab715701f8d02a62fdcc5043511a6cec4f22dd782dd2258f6d7  idun-cpem-1.2.1.tar.gz
+ce786a1d06bccaea014621b41257bf66639a68ed20ce7de13f1ca172e88ae74089812d1d03ad4aa0f87b5dca3be893c0ad1d4054eff5a611551f149cb9c618c9  idun-cpem-1.2.1.tar.gz
 "
