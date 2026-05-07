@@ -21,5 +21,5 @@ package() {
 	install -D -m 755 "$builddir/cpem/cpem.sh" "${pkgdir}"/usr/bin/cpem
 }
 sha512sums="
-ce786a1d06bccaea014621b41257bf66639a68ed20ce7de13f1ca172e88ae74089812d1d03ad4aa0f87b5dca3be893c0ad1d4054eff5a611551f149cb9c618c9  idun-cpem-1.2.1.tar.gz
+145cd0d8a54018af08e9db503ecd9bdb67a95522b7488fd841dc6017e773a6b4c693ad04fb765ca721a790a193df3f5209b46e1e431c53a80bd655c48da3381a  idun-cpem-1.2.1.tar.gz
 "
